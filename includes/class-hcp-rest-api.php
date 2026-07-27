@@ -177,7 +177,7 @@ class OncologyNexus_HCP_REST_API {
     }
 
     private function format_doctor($post) {
-        $doctor_title = get_field('doctor_title', $post->ID);
+        $doctor_npi_number = get_field('npi_number', $post->ID);
         $doctor_specialty = get_field('doctor_specialty', $post->ID);
         $doctor_biography = get_field('doctor_biography', $post->ID);
         $doctor_profile_image = get_field('doctor_profile_image', $post->ID);
@@ -244,7 +244,7 @@ class OncologyNexus_HCP_REST_API {
             'name' => $post->post_title,
             'slug' => $post->post_name,
             'type' => 'doctor',
-            'title' => $doctor_title,
+            'npi_number' => $doctor_npi_number,
             'specialty' => $doctor_specialty,
             'biography' => $doctor_biography,
             'profile_image' => $doctor_profile_image,
@@ -253,7 +253,7 @@ class OncologyNexus_HCP_REST_API {
             'excerpt' => get_the_excerpt($post),
             'link' => get_permalink($post->ID),
             'acf' => array(
-                'doctor_title' => $doctor_title,
+                'npi_number' => $doctor_npi_number,
                 'doctor_specialty' => $doctor_specialty,
                 'doctor_biography' => $doctor_biography,
                 'doctor_profile_image' => $doctor_profile_image,

@@ -21,11 +21,11 @@ class OncologyNexus_HCP_ACF_Fields {
             'title' => 'Doctor Profile',
             'fields' => array(
                 array(
-                    'key' => 'field_hcp_title',
-                    'label' => 'Title',
-                    'name' => 'doctor_title',
+                    'key' => 'field_hcp_npi_number',
+                    'label' => 'NPI Number',
+                    'name' => 'npi_number',
                     'type' => 'text',
-                    'instructions' => 'e.g. MD, PhD, FACS',
+                    'instructions' => '',
                     'required' => 0,
                 ),
                 array(
