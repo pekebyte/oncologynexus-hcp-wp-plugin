@@ -183,6 +183,19 @@ class OncologyNexus_HCP_REST_API {
         $doctor_profile_image = get_field('doctor_profile_image', $post->ID);
         $page_blocks = get_field('page_blocks', $post->ID) ?: array();
         
+        $is_claimed = false;
+        $existing_users_with_claim = get_users(array(
+            'meta_key' => 'claimed_doctor_id',
+            'meta_value' => $post->ID,
+        ));
+        foreach ($existing_users_with_claim as $existing_user) {
+            $status = get_user_meta($existing_user->ID, 'claim_status', true);
+            if ($status !== 'denied') {
+                $is_claimed = true;
+                break;
+            }
+        }
+        
         $featured_image_url = null;
         if (has_post_thumbnail($post->ID)) {
             $featured_image_url = get_the_post_thumbnail_url($post->ID, 'full');
@@ -244,6 +257,7 @@ class OncologyNexus_HCP_REST_API {
             'name' => $post->post_title,
             'slug' => $post->post_name,
             'type' => 'doctor',
+            'is_claimed' => $is_claimed,
             'npi_number' => $doctor_npi_number,
             'specialty' => $doctor_specialty,
             'biography' => $doctor_biography,
