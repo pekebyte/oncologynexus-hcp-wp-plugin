@@ -219,7 +219,11 @@ class OncologyNexus_HCP_REST_API {
             } elseif (is_numeric($item)) {
                 $post_obj = get_post($item);
             }
-            if ($post_obj instanceof WP_Post) {
+            // Only published content may be exposed by this public REST endpoint.
+            // Editors keep drafts/pending posts in the relationship (and the content
+            // sync deliberately mirrors them), but they must never leak into the
+            // public doctor profile.
+            if ($post_obj instanceof WP_Post && $post_obj->post_status === 'publish') {
                 $associated_content[] = array(
                     'id' => $post_obj->ID,
                     'title' => $post_obj->post_title,
@@ -237,7 +241,7 @@ class OncologyNexus_HCP_REST_API {
             if (!empty($raw_meta) && is_array($raw_meta)) {
                 foreach ($raw_meta as $id) {
                     $post_obj = get_post($id);
-                    if ($post_obj instanceof WP_Post) {
+                    if ($post_obj instanceof WP_Post && $post_obj->post_status === 'publish') {
                         $associated_content[] = array(
                             'id' => $post_obj->ID,
                             'title' => $post_obj->post_title,
